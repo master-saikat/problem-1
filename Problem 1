@@ -1,0 +1,35 @@
+s = input().strip()
+
+n = len(s)
+
+# Duplicate string for cyclic handling
+doubled = s + s
+
+freq = [0] * 26
+
+left = 0
+current_sum = 0
+max_sum = 0
+
+for right in range(2 * n):
+
+    idx = ord(doubled[right]) - ord('a')
+
+    # Remove duplicates or window size > n
+    while freq[idx] > 0 or (right - left + 1) > n:
+
+        left_idx = ord(doubled[left]) - ord('a')
+
+        freq[left_idx] -= 1
+        current_sum -= (left_idx + 1)
+
+        left += 1
+
+    # Add current character
+    freq[idx] += 1
+    current_sum += (idx + 1)
+
+    # Update maximum
+    max_sum = max(max_sum, current_sum)
+
+print(max_sum)
